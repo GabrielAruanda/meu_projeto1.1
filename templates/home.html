@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        /* Estilos adicionais específicos para o encurtador de URL */
+        .url-shortener-container {
+            margin: 50px auto; /* Define margem superior e inferior de 50px e centraliza horizontalmente */
+            max-width: 600px; /* Define largura máxima do container */
+        }
+        .url-shortener-card {
+            border: 1px solid #ddd; /* Adiciona borda de 1px sólida com cor cinza */
+            border-radius: 8px; /* Adiciona bordas arredondadas */
+        }
+        .url-shortener-card .card-header {
+            background-color: #f0f0f0; /* Define cor de fundo do cabeçalho do card */
+            color: white; /* Define cor do texto do cabeçalho */
+            border-radius: 8px 8px 0 0; /* Adiciona bordas arredondadas apenas no topo */
+        }
+        .url-shortener-card .card-body {
+            padding: 20px; /* Adiciona preenchimento interno de 20px no corpo do card */
+        }
+        .url-shortener-card .form-group {
+            margin-bottom: 20px; /* Define margem inferior de 20px para os elementos do formulário */
+        }
+        .url-shortener-card .btn-primary {
+            width: 100%; /* Define largura total para o botão primário dentro do card */
+        }
+        .url-shortener-list {
+            margin-top: 20px; /* Define margem superior de 20px para a lista de URLs */
+            display: none; /* Inicialmente oculta a lista de URLs */
+        }
+        .url-shortener-list.show {
+            display: block; /* Exibe a lista de URLs quando a classe 'show' é adicionada */
+        }
+        .url-shortener-list .list-group-item {
+            border: 1px solid #ddd; /* Adiciona borda de 1px sólida com cor cinza para cada item da lista */
+            border-radius: 8px; /* Adiciona bordas arredondadas */
+            margin-bottom: 10px; /* Define margem inferior de 10px para cada item da lista */
+        }
+        /* Estilos para o botão Mostrar Mais */
+        .show-more-button {
+            margin-top: 10px; /* Define margem superior de 10px para o botão */
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper" class="d-flex">
+        <!-- Menu Lateral -->
+        <div id="sidebar" class="bg-primary border-right">
+            <!-- Cabeçalho do menu -->
+            <div class="sidebar-heading text-white text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
+                <i class="fas fa-user-secret me-2"></i>Meu Site <!-- Ícone e título do cabeçalho -->
+            </div>
+            <!-- Lista de links do menu -->
+            <div class="list-group list-group-flush my-3">
+                <a href="{{ url_for('home') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-home me-2"></i>Home <!-- Link para a página Home -->
+                </a>
+                <a href="{{ url_for('features') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-cogs me-2"></i>Features <!-- Link para a página de Features -->
+                </a>
+                <a href="{{ url_for('pricing') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-tag me-2"></i>Pricing <!-- Link para a página de Pricing -->
+                </a>
+                <a href="{{ url_for('contact') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-envelope me-2"></i>Contact <!-- Link para a página de Contact -->
+                </a>
+                <!-- Verifica se o usuário está logado e exibe links apropriados -->
+                {% if 'logged_in' in session %}
+                    <a href="{{ url_for('logout') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                        <i class="fas fa-sign-out-alt me-2"></i>Logout ({{ session['username'] }}) <!-- Link para fazer logout -->
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('register') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                        <i class="fas fa-user-plus me-2"></i>Cadastro <!-- Link para a página de Cadastro -->
+                    </a>
+                    <a href="{{ url_for('login') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login <!-- Link para a página de Login -->
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        <!-- Conteúdo da Página -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row mt-4">
+                    <div class="col-md-8 offset-md-2">
+                        <!-- Card do encurtador de URL -->
+                        <div class="card url-shortener-card">
+                            <div class="card-header bg-primary text-white">
+                                <h3 class="card-title">Encurtador de URL</h3> <!-- Título do card -->
+                            </div>
+                            <div class="card-body">
+                                <!-- Formulário de encurtamento de URL -->
+                                <form method="POST" action="{{ url_for('home') }}">
+                                    <div class="form-group">
+                                        <label for="original_url">URL Original:</label>
+                                        <input type="url" class="form-control" id="original_url" name="original_url" placeholder="Digite a URL original aqui" required>
+                                        <!-- Campo para inserir a URL original -->
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Encurtar URL</button> <!-- Botão para enviar o formulário -->
+                                </form>
+                            </div>
+                        </div>
+                        <!-- Lista de URLs encurtadas -->
+                        <div class="url-shortener-list">
+                            <h2 class="mt-4 mb-3">URLs Encurtadas:</h2> <!-- Título para a lista de URLs -->
+                            <ul class="list-group">
+                                {% for url in urls %}
+                                <li class="list-group-item">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <p class="mb-1"><strong>URL Original:</strong> <a href="{{ url[1] }}" class="text-primary">{{ url[1] }}</a></p>
+                                            <!-- Exibe a URL original com link -->
+                                            <p class="mb-1"><strong>URL Encurtada:</strong> <a href="{{ url[2] }}">{{ request.url_root }}{{ url[2] }}</a></p>
+                                            <!-- Exibe a URL encurtada com link -->
+                                            <p class="mb-1"><strong>Número de Cliques:</strong> {{ url[3] }}</p>
+                                            <!-- Exibe o número de cliques na URL -->
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <!-- Botão Mostrar Mais/Mostrar Menos -->
+                        <button class="btn btn-primary show-more-button mt-3" onclick="toggleUrls()">Mostrar Mais</button>
+                        <!-- Botão para exibir/ocultar a lista de URLs encurtadas -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts JavaScript necessários -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <!-- Biblioteca jQuery -->
+    <script>
+        function toggleUrls() {
+            var urlList = document.querySelector('.url-shortener-list');
+            var buttonText = document.querySelector('.show-more-button');
+            
+            if (urlList.classList.contains('show')) {
+                urlList.classList.remove('show');
+                buttonText.textContent = 'Mostrar Mais';
+            } else {
+                urlList.classList.add('show');
+                buttonText.textContent = 'Mostrar Menos';
+                // Rolando a página para o topo quando clicar em Mostrar Mais
+                $('html, body').animate({ scrollTop: 0 }, 'slow');
+            }
+        }
+    </script>
+    <!-- Script para controlar a exibição da lista de URLs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- Scripts do Bootstrap -->
+    <!-- Script personalizado -->
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <!-- Script personalizado para funcionalidades adicionais -->
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contratar Plano</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            padding-top: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+        }
+        h1 {
+            color: #007bff;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .btn-contratar {
+            background-color: #007bff;
+            color: #fff;
+            margin-top: 20px;
+            margin-right: 10px;
+        }
+        .btn-cancelar {
+            background-color: #6c757d;
+            color: #fff;
+            margin-top: 20px;
+        }
+        @media (max-width: 576px) {
+            .row {
+                flex-direction: column;
+            }
+            .col {
+                margin-bottom: 10px;
+            }
+            .col:last-child {
+                margin-bottom: 0;
+            }
+            .btn-contratar,
+            .btn-cancelar {
+                width: 100%;
+            }
+            .text-right {
+                text-align: center !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Contratar Plano: {{ plano }}</h1>
+        <form action="{{ url_for('confirmar_contratacao') }}" method="POST">
+            <input type="hidden" name="plano" value="{{ plano }}">
+            <div class="form-group">
+                <label for="nome">Nome Completo</label>
+                <input type="text" class="form-control" id="nome" name="nome" required>
+            </div>
+            <div class="form-group">
+                <label for="endereco">Endereço</label>
+                <input type="text" class="form-control" id="endereco" name="endereco" required>
+            </div>
+            <div class="form-group">
+                <label for="metodo_pagamento">Método de Pagamento</label>
+                <select class="form-control" id="metodo_pagamento" name="metodo_pagamento" required>
+                    <option value="">Selecione...</option>
+                    <option value="cartao_credito">Cartão de Crédito</option>
+                    <option value="cartao_debito">Cartão de Débito</option>
+                    <option value="boleto">Boleto Bancário</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="numero_cartao">Número do Cartão (opcional)</label>
+                <input type="text" class="form-control" id="numero_cartao" name="numero_cartao">
+            </div>
+            <div class="form-group">
+                <label for="cpf">CPF (opcional)</label>
+                <input type="text" class="form-control" id="cpf" name="cpf">
+            </div>
+            <div class="row">
+                <div class="col">
+                    <a href="{{ url_for('pricing') }}" class="btn btn-cancelar"><i class="fas fa-times"></i> Cancelar</a>
+                </div>
+                <div class="col text-right">
+                    <button type="submit" class="btn btn-contratar"><i class="fas fa-shopping-cart"></i> Contratar Plano</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Scripts JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

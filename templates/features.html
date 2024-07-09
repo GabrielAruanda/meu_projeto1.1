@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags para codificação e viewport -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features - Meu Site com Flask</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    
+    <style>
+        /* Estilos CSS adicionais */
+        body {
+            background-color: #f0f0f0; /* Cor de fundo do corpo */
+            font-family: Arial, sans-serif;
+        }
+        #wrapper {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        /* Estilos para a barra lateral */
+        #sidebar {
+            height: 100%;
+            width: 250px;
+            background-color: #007bff;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s;
+            overflow: hidden;
+            position: fixed;
+        }
+        
+        /* Estilos para o cabeçalho da barra lateral */
+        .sidebar-heading {
+            padding: 15px;
+            font-size: 1.5rem;
+            text-align: center;
+            color: white;
+        }
+        .list-group-item {
+            color: white;
+            border: none;
+        }
+        .list-group-item:hover {
+            background-color: #0056b3;
+        }
+        #page-content-wrapper {
+            margin-left: 250px; /* Largura do menu lateral */
+            padding: 20px;
+            width: calc(100% - 250px);
+        }
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden; /* Garante que a sombra não vaze */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: scale(1.05); /* Aumenta o tamanho do card em 5% */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        }
+        .card .card-body {
+            padding: 20px;
+        }
+        .card .card-title {
+            margin-top: 10px;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        .card .card-text {
+            line-height: 1.6;
+        }
+        .card .card-icon {
+            font-size: 3rem;
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+        @media (max-width: 576px) {
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            #page-content-wrapper {
+                margin-left: 0;
+                width: 100%;
+            }
+            .sidebar-heading {
+                text-align: center;
+            }
+            .list-group-item {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper" class="d-flex">
+        <!-- Menu Lateral -->
+        <div id="sidebar" class="bg-primary border-right">
+            <!-- Cabeçalho do menu lateral -->
+            <div class="sidebar-heading text-white text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
+                <i class="fas fa-user-secret me-2"></i>Meu Site
+            </div>
+            <!-- Lista de links do menu -->
+            <div class="list-group list-group-flush my-3">
+                <a href="{{ url_for('home') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-home me-2"></i>Home
+                </a>
+                <a href="{{ url_for('features') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-cogs me-2"></i>Features
+                </a>
+                <a href="{{ url_for('pricing') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-tag me-2"></i>Pricing
+                </a>
+                <a href="{{ url_for('contact') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-envelope me-2"></i>Contact
+                </a>
+                <!-- Verificação de sessão para exibir links de login/logout -->
+                {% if 'logged_in' in session %}
+                    <a href="{{ url_for('logout') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                        <i class="fas fa-sign-out-alt me-2"></i>Logout ({{ session['username'] }})
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('register') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                        <i class="fas fa-user-plus me-2"></i>Cadastro
+                    </a>
+                    <a href="{{ url_for('login') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        <!-- Conteúdo da Página -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <h1 class="text-center text-dark mb-4">Funcionalidades do Meu Site</h1>
+                <div class="card-container">
+                    <!-- Card 1: Encurtamento de URL -->
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-link"></i>
+                            </div>
+                            <h2 class="card-title">Encurtamento de URL</h2>
+                            <p class="card-text">Encurte URLs longas em links curtos e fáceis de compartilhar. Crie, gerencie e analise o desempenho dos links encurtados.</p>
+                        </div>
+                    </div>
+                    <!-- Card 2: Gerenciamento de Usuários -->
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h2 class="card-title">Gerenciamento de Usuários</h2>
+                            <p class="card-text">Cadastre-se, faça login e gerencie suas URLs encurtadas com facilidade. Personalize seu perfil e mantenha o controle.</p>
+                        </div>
+                    </div>
+                    <!-- Card 3: Redirecionamentos Rápidos -->
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-external-link-alt"></i>
+                            </div>
+                            <h2 class="card-title">Redirecionamentos Rápidos</h2>
+                            <p class="card-text">Redirecionamento rápido e seguro para URLs originais, garantindo eficiência e segurança para seus links.</p>
+                        </div>
+                    </div>
+                    <!-- Card 4: Funcionalidades por Página -->
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <h2 class="card-title">Funcionalidades por Página</h2>
+                            <ul class="card-text">
+                                <li><strong>Home:</strong> Página inicial com informações gerais sobre o site.</li>
+                                <li><strong>Features:</strong> Detalhes sobre as funcionalidades do site (esta página).</li>
+                                <li><strong>Pricing:</strong> Informações sobre os preços dos nossos serviços.</li>
+                                <li><strong>Contact:</strong> Formulário de contato para suporte e outras consultas.</li>
+                                <li><strong>Cadastro:</strong> Página para novos usuários se cadastrarem.</li>
+                                <li><strong>Login:</strong> Página para usuários existentes fazerem login.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Card 5: Outras Funcionalidades -->
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </div>
+                            <h2 class="card-title">Outras Funcionalidades</h2>
+                            <p class="card-text">Explore outras funcionalidades do nosso site que podem ser úteis para você. Desenvolvimento com API, personalização de perfis, análise de dados e suporte 24/7.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts JavaScript necessários -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- Script personalizado -->
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html>

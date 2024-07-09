@@ -1,0 +1,121 @@
+/* styles.css */
+
+/* Estilos gerais para o HTML e o corpo do documento */
+html, body {
+    height: 100%; /* Define a altura de 100% para o HTML e o corpo */
+    margin: 0; /* Remove as margens padrão do corpo */
+    font-family: Arial, sans-serif; /* Define a fonte padrão para o corpo do documento */
+}
+
+/* Estilos para o contêiner principal */
+#wrapper {
+    display: flex; /* Usa display flex para layout flexível */
+    width: 100%; /* Define a largura de 100% para ocupar toda a largura disponível */
+    height: 100%; /* Define a altura de 100% para ocupar toda a altura disponível */
+}
+
+/* Estilos para a barra lateral */
+#sidebar {
+    height: 100%; /* Define a altura de 100% para ocupar toda a altura disponível */
+    width: 250px; /* Define a largura fixa de 250px para a barra lateral */
+    background-color: #007bff; /* Cor de fundo azul para a barra lateral */
+    display: flex; /* Usa display flex para layout flexível */
+    flex-direction: column; /* Define o fluxo de coluna para organizar os itens verticalmente */
+    transition: all 0.3s; /* Efeito de transição suave para todas as propriedades com duração de 0.3s */
+    overflow: hidden; /* Esconde qualquer conteúdo que exceda o tamanho da barra lateral */
+    position: fixed; /* Mantém a barra lateral fixa enquanto rola a página */
+}
+
+/* Estilos para o cabeçalho da barra lateral */
+.sidebar-heading {
+    padding: 15px; /* Preenchimento interno de 15px para o cabeçalho da barra lateral */
+    font-size: 1.5rem; /* Tamanho da fonte 1.5rem para o cabeçalho */
+    text-align: center; /* Alinhamento central do texto no cabeçalho */
+    transition: all 0.3s; /* Efeito de transição suave para todas as propriedades com duração de 0.3s */
+}
+
+/* Estilos para os itens da lista na barra lateral */
+.list-group-item {
+    padding: 20px; /* Preenchimento interno de 20px para cada item da lista */
+    transition: all 0.3s; /* Efeito de transição suave para todas as propriedades com duração de 0.3s */
+    white-space: nowrap; /* Impede a quebra de linha nos itens da lista */
+    display: flex; /* Usa display flex para layout flexível */
+    align-items: center; /* Alinha os itens verticalmente ao centro */
+}
+
+/* Estilos específicos para os itens da lista na barra lateral com cor de texto branco */
+#sidebar .list-group-item {
+    color: white; /* Cor do texto branco para os itens da lista */
+    border: none; /* Remove a borda dos itens da lista */
+}
+
+/* Estilos de hover para os itens da lista na barra lateral */
+#sidebar .list-group-item:hover {
+    background-color: #0056b3; /* Cor de fundo mais escura quando o item da lista é hover */
+}
+
+/* Estilos para o contêiner de conteúdo da página */
+#page-content-wrapper {
+    flex: 1; /* Ocupa o espaço restante disponível no layout flexível */
+    padding: 20px; /* Preenchimento interno de 20px para o conteúdo da página */
+    margin-left: 250px; /* Margem à esquerda igual à largura da barra lateral inicialmente */
+    width: calc(100% - 250px); /* Largura calculada menos a largura da barra lateral */
+    transition: all 0.3s; /* Efeito de transição suave para todas as propriedades com duração de 0.3s */
+    display: flex; /* Usa display flex para layout flexível */
+    justify-content: center; /* Alinha o conteúdo horizontalmente ao centro */
+    align-items: center; /* Alinha o conteúdo verticalmente ao centro */
+}
+
+/* Estilos para a barra lateral quando está colapsada */
+#sidebar.collapsed {
+    width: 80px; /* Largura reduzida da barra lateral quando está colapsada */
+}
+
+/* Estilos para esconder o texto nos itens da lista quando a barra lateral está colapsada */
+#sidebar.collapsed .list-group-item span {
+    display: none; /* Esconde o texto nos itens da lista */
+}
+
+/* Estilos para o cabeçalho da barra lateral quando está colapsada */
+#sidebar.collapsed .sidebar-heading {
+    text-align: center; /* Alinha o texto centralmente quando está colapsada */
+}
+
+/* Estilos para o contêiner de conteúdo da página quando a barra lateral está colapsada */
+#sidebar.collapsed #page-content-wrapper {
+    margin-left: 80px; /* Ajusta a margem à esquerda quando a barra lateral está colapsada */
+    width: calc(100% - 80px); /* Ajusta a largura do conteúdo quando a barra lateral está colapsada */
+}
+
+/* Estilos para o botão de alternância da barra lateral */
+.toggle-btn {
+    cursor: pointer; /* Define o cursor como ponteiro para indicar ação clicável */
+    font-size: 1.2rem; /* Tamanho da fonte 1.2rem para o botão de alternância */
+    transition: transform 0.3s; /* Efeito de transição suave para a transformação com duração de 0.3s */
+}
+
+/* Estilos para o botão de alternância da barra lateral quando está colapsada */
+#sidebar.collapsed .toggle-btn {
+    transform: rotate(180deg); /* Rotaciona o ícone do botão quando a barra lateral está colapsada */
+}
+
+/* Estilos adicionais para o ícone nos itens da lista */
+.list-group-item i {
+    min-width: 25px; /* Largura mínima de 25px para o ícone nos itens da lista */
+    text-align: center; /* Alinhamento central do texto dentro do ícone */
+}
+
+/* Estilos de hover para os itens da lista */
+.list-group-item:hover {
+    background-color: #0056b3; /* Cor de fundo mais escura quando o item da lista é hover */
+}
+
+/* Estilos para formulário de login */
+.login-form {
+    width: 100%; /* Largura de 100% para o formulário de login */
+    max-width: 400px; /* Largura máxima de 400px para o formulário de login */
+    padding: 20px; /* Preenchimento interno de 20px para o formulário de login */
+    background-color: #fff; /* Cor de fundo branca para o formulário de login */
+    border-radius: 8px; /* Raio de borda de 8px para o formulário de login */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra leve para o formulário de login */
+}

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Meu Site com Flask</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- Estilos personalizados específicos para esta página -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        /* Estilos para a barra lateral */
+        #sidebar {
+            height: 100%;
+            width: 250px;
+            background-color: #007bff;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s;
+            overflow: hidden;
+            position: fixed;
+        }
+        
+        /* Estilos para o cabeçalho da barra lateral */
+        .sidebar-heading {
+            padding: 15px;
+            font-size: 1.5rem;
+            text-align: center;
+            color: white;
+        }
+        
+        #sidebar .list-group-item {
+            color: white;
+            border: none;
+        }
+
+        #sidebar .list-group-item:hover {
+            background-color: #0056b3;
+        }
+
+        .list-group-item {
+            border: none;
+            color: #ddd;
+            padding: 20px;
+            transition: all 0.3s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+        }
+
+        .list-group-item:hover, 
+        .list-group-item.active {
+            background-color: #0056b3;
+            color: #fff;
+        }
+
+        /* Estilos para o conteúdo da página */
+        #page-content-wrapper {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 20px;
+        }
+        
+        .jumbotron {
+            background: linear-gradient(90deg, rgba(0,123,255,1) 0%, rgba(0,210,255,1) 100%);
+            color: white;
+            padding: 2rem;
+        }
+
+        .card {
+            border: none;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card-body i {
+            color: #007bff;
+        }
+
+        .testimonial {
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            margin-bottom: 1rem;
+        }
+
+        footer {
+            background-color: #007bff;
+            color: white;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilos responsivos */
+        @media (max-width: 767.98px) {
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            #sidebar .list-group-item {
+                text-align: center;
+                padding: 10px;
+            }
+            #page-content-wrapper {
+                margin-left: 0;
+                width: 100%;
+            }
+            .jumbotron {
+                padding: 1rem;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            #sidebar .list-group-item {
+                text-align: center;
+                padding: 10px;
+            }
+            #page-content-wrapper {
+                margin-left: 0;
+                width: 100%;
+            }
+            .jumbotron {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper" class="d-flex">
+        <!-- Menu Lateral -->
+        <div id="sidebar">
+            <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
+                <i class="fas fa-user-secret me-2"></i>Meu Site
+            </div>
+            <!-- Lista de links do menu -->
+            <div class="list-group list-group-flush my-3">
+                <a href="{{ url_for('home') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-home me-2"></i><span>Home</span>
+                </a>
+                <a href="{{ url_for('features') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-cogs me-2"></i><span>Features</span>
+                </a>
+                <a href="{{ url_for('pricing') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-tag me-2"></i><span>Pricing</span>
+                </a>
+                <a href="{{ url_for('contact') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-envelope me-2"></i><span>Contact</span>
+
+        
+                <!-- Verificação de sessão para exibir links de login/logout -->
+                {% if 'logged_in' in session %}
+                    <a href="{{ url_for('logout') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                        <i class="fas fa-sign-out-alt me-2"></i><span>Logout ({{ session['username'] }})</span>
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('register') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                        <i class="fas fa-user-plus me-2"></i><span>Cadastro</span>
+                    </a>
+                    <a href="{{ url_for('login') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                        <i class="fas fa-sign-in-alt me-2"></i><span>Login</span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Conteúdo da Página -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid mt-3">
+                <!-- Seção de Boas-vindas -->
+                <section class="jumbotron text-center">
+                    <div class="container">
+                        <h1 class="jumbotron-heading">Bem-vindo ao Meu Site com Flask</h1>
+                        <p class="lead text-muted">Página inicial com informações gerais sobre o site e várias outras funções.</p>
+                    </div>
+                </section>
+
+                <!-- Funcionalidades principais -->
+                <section class="my-5">
+                    <div class="container">
+                        <div class="row text-center">
+                            <div class="col-md-4 col-sm-6 mb-4">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <i class="fas fa-link fa-3x mb-3"></i>
+                                        <h5 class="card-title">Encurtamento de URL</h5>
+                                        <p class="card-text">Encurte URLs longas em links curtos e fáceis de compartilhar.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 mb-4">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <i class="fas fa-users fa-3x mb-3"></i>
+                                        <h5 class="card-title">Gerenciamento de Usuários</h5>
+                                        <p class="card-text">Adicione, remova e gerencie usuários com facilidade.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 mb-4">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <i class="fas fa-chart-line fa-3x mb-3"></i>
+                                        <h5 class="card-title">Análise de Dados</h5>
+                                        <p class="card-text">Obtenha insights e relatórios detalhados sobre o uso do site.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Testemunhos -->
+                <section class="my-5">
+                    <div class="container">
+                        <h2 class="text-center mb-4">O que nossos usuários dizem</h2>
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6 mb-4">
+                                <div class="testimonial">
+                                    <p>"Este site é fantástico! Ele realmente ajudou a simplificar minhas tarefas diárias."</p>
+                                    <small>- João Silva</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 mb-4">
+                                <div class="testimonial">
+                                    <p>"Recomendo para todos os meus amigos. Interface intuitiva e funcionalidades poderosas."</p>
+                                    <small>- Maria Oliveira</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 mb-4">
+                                <div class="testimonial">
+                                    <p>"A equipe de suporte é muito eficiente e sempre pronta para ajudar."</p>
+                                    <small>- Pedro Santos</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Call to Action -->
+                <section class="my-5 text-center">
+                    <div class="container">
+                        <h2>Junte-se a nós hoje mesmo!</h2>
+                        <p>Crie uma conta e comece a usar nossos serviços gratuitamente.</p>
+                        <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg">Cadastre-se agora</a>
+                    </div>
+                </section>
+             
+                <!-- Rodapé -->
+                <footer class="text-center py-3">
+                    <div class="container">
+                        <p>© 2023 Meu Site com Flask. Todos os direitos reservados.</p>
+                        <a href="{{ url_for('privacy') }}" class="text-white">Política de Privacidade</a> | 
+                        <a href="{{ url_for('terms') }}" class="text-white">Termos de Uso</a>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts JavaScript necessários -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- Script personalizado -->
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html>

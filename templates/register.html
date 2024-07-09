@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Usuário - Meu Site com Flask</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        /* Estilos para a barra lateral */
+        #sidebar {
+            height: 100%;
+            width: 250px;
+            background-color: #007bff;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s;
+            overflow: hidden;
+            position: fixed;
+        }
+
+        /* Estilos para o cabeçalho da barra lateral */
+        .sidebar-heading {
+            padding: 15px;
+            font-size: 1.5rem;
+            text-align: center;
+            color: white;
+        }
+
+        #sidebar .list-group-item {
+            color: white;
+            border: none;
+        }
+
+        #sidebar .list-group-item:hover {
+            background-color: #0056b3;
+        }
+
+        .list-group-item {
+            border: none;
+            color: #ddd;
+            padding: 20px;
+            transition: all 0.3s;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+        }
+
+        .list-group-item:hover,
+        .list-group-item.active {
+            background-color: #0056b3;
+            color: #fff;
+        }
+
+        /* Estilos para o conteúdo da página */
+        #page-content-wrapper {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 20px;
+        }
+
+        .center-form {
+            margin: auto;
+            max-width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            margin-top: 50px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .center-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Estilos para os campos do formulário */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-control {
+            height: 40px;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            height: 40px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        /* Estilos responsivos */
+        @media (max-width: 767.98px) {
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            #sidebar .list-group-item {
+                text-align: center;
+                padding: 10px;
+            }
+
+            #page-content-wrapper {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .center-form {
+                margin-top: 20px;
+                padding: 15px;
+                max-width: 100%;
+                border: none;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            #sidebar .list-group-item {
+                text-align: center;
+                padding: 10px;
+            }
+
+            #page-content-wrapper {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .center-form {
+                margin-top: 20px;
+                padding: 15px;
+                max-width: 100%;
+                border: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper" class="d-flex">
+        <!-- Menu Lateral -->
+        <div id="sidebar" class="bg-primary">
+            <!-- Cabeçalho do menu lateral -->
+            <div class="sidebar-heading text-white text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
+                <i class="fas fa-user-secret me-2"></i>Meu Site
+            </div>
+            <!-- Lista de links do menu -->
+            <div class="list-group list-group-flush my-3">
+                <a href="{{ url_for('home') }}"
+                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-home me-2"></i>Home
+                </a>
+                <a href="{{ url_for('features') }}"
+                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-cogs me-2"></i>Features
+                </a>
+                <a href="{{ url_for('pricing') }}"
+                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-tag me-2"></i>Pricing
+                </a>
+                <a href="{{ url_for('contact') }}"
+                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-envelope me-2"></i>Contact
+                </a>
+                <!-- Verificação de sessão para exibir links de login/logout -->
+                {% if 'logged_in' in session %}
+                <a href="{{ url_for('logout') }}"
+                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                </a>
+                {% else %}
+                <a href="{{ url_for('register') }}"
+                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-user-plus me-2"></i>Cadastro
+                </a>
+                <a href="{{ url_for('login') }}"
+                    class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-sign-in-alt me-2"></i>Login
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Conteúdo da Página -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid mt-3">
+                <div class="center-form">
+                    <h2 class="text-center mb-4">Cadastro de Usuário</h2>
+                    <!-- Formulário de cadastro de usuário -->
+                    <form method="POST">
+                        <div class="form-group">
+                            <label for="username">Usuário</label>
+                            <input type="text" class="form-control" id="username" name="username"
+                                placeholder="Digite seu usuário" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Senha</label>
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="Digite sua senha" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
+                    </form>  
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Scripts JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- Script JavaScript personalizado -->
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+
+</html>

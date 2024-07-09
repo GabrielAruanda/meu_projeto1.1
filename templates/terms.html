@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termos de Uso - Meu Site com Flask</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40; /* Define a cor do texto principal */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto; /* Centraliza o container na página */
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Sombra suave */
+        }
+
+        h1 {
+            color: #007bff; /* Define a cor do título principal */
+            margin-bottom: 20px; /* Espaçamento inferior do título */
+            text-align: center; /* Centraliza o título */
+        }
+
+        h4 {
+            color: #007bff; /* Define a cor dos títulos secundários */
+            margin-top: 20px; /* Espaçamento superior dos títulos */
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px; /* Espaçamento inferior dos parágrafos */
+        }
+
+        ol {
+            padding-left: 20px; /* Recuo à esquerda para lista ordenada */
+            margin-bottom: 20px; /* Espaçamento inferior da lista */
+        }
+
+        li {
+            margin-bottom: 10px; /* Espaçamento inferior dos itens da lista */
+        }
+
+        a {
+            color: #007bff; /* Define a cor dos links */
+            text-decoration: none; /* Remove sublinhado padrão dos links */
+        }
+
+        a:hover {
+            text-decoration: underline; /* Adiciona sublinhado ao passar o mouse sobre links */
+        }
+
+        /* Estilos responsivos */
+        @media (max-width: 768px) {
+            .container {
+                margin-top: 20px; /* Reduz o espaço superior do container */
+                padding: 15px; /* Reduz o padding do container */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Termos de Uso</h1>
+        <p>Aqui você pode colocar o conteúdo dos seus termos de uso.</p>
+
+        <ol>
+            <li>
+                <h4>Uso do Site</h4>
+                <p>Ao acessar este site, você declara ter pelo menos 18 anos de idade. Você concorda em usar este site apenas para fins legais e de maneira que não viole os direitos de outros usuários ou restrinja ou iniba o uso e gozo do site por qualquer outra pessoa.</p>
+            </li>
+            <li>
+                <h4>Conteúdo do Usuário</h4>
+                <p>Ao enviar conteúdo para este site, você concede uma licença mundial, não exclusiva e livre de royalties para usar, reproduzir, modificar, adaptar, publicar, traduzir, distribuir e exibir esse conteúdo. Você é responsável por qualquer conteúdo que enviar e garante que possui todos os direitos necessários para o conteúdo que você contribui.</p>
+            </li>
+            <li>
+                <h4>Privacidade</h4>
+                <p>Suas informações pessoais são tratadas de acordo com nossa Política de Privacidade. Ao utilizar este site, você concorda com a coleta, uso e divulgação de suas informações conforme descrito em nossa Política de Privacidade.</p>
+            </li>
+            <li>
+                <h4>Links para Outros Sites</h4>
+                <p>Este site pode conter links para sites de terceiros que não são controlados ou operados por nós. Não somos responsáveis pelo conteúdo, políticas de privacidade ou práticas de quaisquer sites de terceiros.</p>
+            </li>
+            <li>
+                <h4>Alterações nos Termos de Uso</h4>
+                <p>Podemos atualizar ou modificar estes termos de uso periodicamente sem aviso prévio. Recomendamos que você revise esta página regularmente para estar ciente de quaisquer alterações.</p>
+            </li>
+            <li>
+                <h4>Limitação de Responsabilidade</h4>
+                <p>Em nenhuma circunstância seremos responsáveis por quaisquer danos diretos, indiretos, incidentais, especiais, consequenciais ou punitivos decorrentes do uso ou incapacidade de usar este site.</p>
+            </li>
+            <li>
+                <h4>Lei Aplicável</h4>
+                <p>Estes termos de uso serão regidos e interpretados de acordo com as leis do Estado X, sem levar em conta seus princípios de conflitos de leis.</p>
+            </li>
+        </ol>
+
+        <br><a href="{{ url_for('home') }}" class="btn btn-primary mt-3">Voltar para a página inicial</a>
+    </div>
+
+    <!-- Scripts JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- Script JavaScript personalizado -->
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+
+</html>

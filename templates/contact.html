@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Site - Contato</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        @media (max-width: 768px) {
+            #sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            #page-content-wrapper {
+                width: 100%;
+                padding: 0;
+            }
+        }
+        @media (min-width: 769px) {
+            #sidebar {
+                width: 250px;
+                position: fixed;
+                height: 100%;
+            }
+            #page-content-wrapper {
+                margin-left: 250px;
+                width: calc(100% - 250px);
+            }
+        }
+        #wrapper {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .sidebar-heading {
+            font-size: 1.2rem;
+        }
+        .list-group-item {
+            font-size: 1rem;
+        }
+        .container-fluid {
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Menu Lateral -->
+        <div id="sidebar" class="bg-primary border-right">
+            <div class="sidebar-heading text-white text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
+                <i class="fas fa-user-secret me-2"></i>Meu Site
+            </div>
+            <div class="list-group list-group-flush my-3">
+                <a href="{{ url_for('home') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-home me-2"></i>Home
+                </a>
+                <a href="{{ url_for('features') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-cogs me-2"></i>Features
+                </a>
+                <a href="{{ url_for('pricing') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-tag me-2"></i>Pricing
+                </a>
+                <a href="{{ url_for('contact') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-envelope me-2"></i>Contact
+                </a>
+                <!-- Verifica se o usuário está logado e exibe links apropriados -->
+                {% if 'logged_in' in session %}
+                    <a href="{{ url_for('logout') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                        <i class="fas fa-sign-out-alt me-2"></i>Logout ({{ session['username'] }})
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('register') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                        <i class="fas fa-user-plus me-2"></i>Cadastro
+                    </a>
+                    <a href="{{ url_for('login') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Conteúdo da Página -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid mt-3">
+                <h1>Entre em Contato Conosco</h1>
+                <p>Use o formulário abaixo para nos enviar uma mensagem.</p>
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="name">Nome:</label>
+                            <input type="text" class="form-control" id="name">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="email">Email:</label>
+                            <input type="email" class="form-control" id="email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Mensagem:</label>
+                        <textarea class="form-control" id="message" rows="5"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts JavaScript necessários -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- Script personalizado -->
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html>
