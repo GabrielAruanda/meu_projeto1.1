@@ -71,6 +71,9 @@
                 <a href="{{ url_for('pricing') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-tag me-2"></i>Pricing <!-- Link para a página de Pricing -->
                 </a>
+                <a href="{{ url_for('mostrar_grafico') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-chart-line me-2"></i><span>Gráfico</span>
+                </a>
                 <a href="{{ url_for('contact') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-envelope me-2"></i>Contact <!-- Link para a página de Contact -->
                 </a>
@@ -158,6 +161,39 @@
                 $('html, body').animate({ scrollTop: 0 }, 'slow');
             }
         }
+          // Função para obter dados do gráfico e atualizá-lo
+          function updateChart() {
+            fetch('/chart_data')
+                .then(response => response.json())
+                .then(data => {
+                    var ctx = document.getElementById('clickChart').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: data.labels,
+                            datasets: [{
+                                label: 'Número de Cliques',
+                                data: data.data,
+                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                });
+        }
+
+        // Atualiza o gráfico ao carregar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            updateChart();
+        });
     </script>
     <!-- Script para controlar a exibição da lista de URLs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
