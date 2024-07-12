@@ -124,7 +124,7 @@
                                         <div>
                                             <p class="mb-1"><strong>URL Original:</strong> <a href="{{ url[1] }}" class="text-primary">{{ url[1] }}</a></p>
                                             <!-- Exibe a URL original com link -->
-                                            <p class="mb-1"><strong>URL Encurtada:</strong> <a href="{{ url[2] }}">{{ request.url_root }}{{ url[2] }}</a></p>
+                                            <p class="mb-1"><strong>URL Encurtada:</strong> <a href="{{ url[2] }}">{{ url[2] }}</a></p>
                                             <!-- Exibe a URL encurtada com link -->
                                             <p class="mb-1"><strong>Número de Cliques:</strong> {{ url[3] }}</p>
                                             <!-- Exibe o número de cliques na URL -->
@@ -147,60 +147,31 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <!-- Biblioteca jQuery -->
     <script>
-        function toggleUrls() {
-            var urlList = document.querySelector('.url-shortener-list');
-            var buttonText = document.querySelector('.show-more-button');
-            
-            if (urlList.classList.contains('show')) {
-                urlList.classList.remove('show');
-                buttonText.textContent = 'Mostrar Mais';
-            } else {
-                urlList.classList.add('show');
-                buttonText.textContent = 'Mostrar Menos';
-                // Rolando a página para o topo quando clicar em Mostrar Mais
-                $('html, body').animate({ scrollTop: 0 }, 'slow');
-            }
-        }
-          // Função para obter dados do gráfico e atualizá-lo
-          function updateChart() {
-            fetch('/chart_data')
-                .then(response => response.json())
-                .then(data => {
-                    var ctx = document.getElementById('clickChart').getContext('2d');
-                    new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: data.labels,
-                            datasets: [{
-                                label: 'Número de Cliques',
-                                data: data.data,
-                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                                borderColor: 'rgba(54, 162, 235, 1)',
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
-                            }
-                        }
-                    });
-                });
+        var timer; // Variável global para armazenar o temporizador
+
+        // Função para reiniciar o temporizador de recarregamento automático
+        function resetAutoReload() {
+            clearTimeout(timer); // Limpa o temporizador atual
+            timer = setTimeout(function() {
+                location.reload(); // Recarrega a página após 15 segundos de inatividade
+            }, 15000); // 15 segundos
         }
 
-        // Atualiza o gráfico ao carregar a página
+        // Função para iniciar o monitoramento de inatividade ao carregar a página
         document.addEventListener('DOMContentLoaded', function() {
-            updateChart();
+            resetAutoReload(); // Inicia o temporizador de recarregamento automático
+
+            // Monitora eventos de interação do usuário para reiniciar o temporizador
+            document.addEventListener('mousemove', resetAutoReload);
+            document.addEventListener('keydown', resetAutoReload);
+            document.addEventListener('scroll', resetAutoReload);
         });
+
+        // Função para alternar a exibição da lista de URLs encurtadas
+        function toggleUrls() {
+            var list = document.querySelector('.url-shortener-list');
+            list.classList.toggle('show'); // Adiciona ou remove a classe 'show' para exibir ou ocultar a lista
+        }
     </script>
-    <!-- Script para controlar a exibição da lista de URLs -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <!-- Scripts do Bootstrap -->
-    <!-- Script personalizado -->
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
-    <!-- Script personalizado para funcionalidades adicionais -->
 </body>
 </html>

@@ -3,32 +3,18 @@ from flask_mysqldb import MySQL
 from config import Config
 import random
 import string
-import hashlib  
-from werkzeug.security import generate_password_hash, check_password_hash  
-import requests  
-import json
-from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.config.from_object(Config)  
-app.secret_key = Config.SECRET_KEY  
+app.config.from_object(Config)
+app.secret_key = Config.SECRET_KEY
 
 mysql = MySQL(app)
 
 def generate_short_url(original_url):
     url_name = original_url.rstrip('/').rsplit('/', 1)[-1][:3]
     random_part = ''.join(random.choices(string.digits, k=3))
-    return f"{url_name}{random_part}"
-
-def get_public_ip():
-    try:
-        response = requests.get('https://api64.ipify.org?format=json')
-        data = response.json()
-        return data['ip']
-    except Exception as e:
-        print(f"Erro ao obter IP público: {e}")
-        return None
+    return f"web-encurt.{url_name}{random_part}"
 
 @app.route('/<short_url>')
 def redirect_to_url(short_url):
@@ -38,18 +24,17 @@ def redirect_to_url(short_url):
     if result:
         cur.execute("UPDATE urls SET click_count = click_count + 1 WHERE short_url = %s", (short_url,))
         local_ip = request.remote_addr
-        public_ip = get_public_ip()
         user_id = session.get('user_id')
         if user_id:
             cur.execute("""
-                INSERT INTO clicks (url_id, user_id, local_ip_address, public_ip_address)
-                VALUES ((SELECT id FROM urls WHERE short_url = %s), %s, %s, %s)
-            """, (short_url, user_id, local_ip, public_ip))
+                INSERT INTO clicks (url_id, user_id, local_ip_address)
+                VALUES ((SELECT id FROM urls WHERE short_url = %s), %s, %s)
+            """, (short_url, user_id, local_ip))
         else:
             cur.execute("""
-                INSERT INTO clicks (url_id, local_ip_address, public_ip_address)
-                VALUES ((SELECT id FROM urls WHERE short_url = %s), %s, %s)
-            """, (short_url, local_ip, public_ip))
+                INSERT INTO clicks (url_id, local_ip_address)
+                VALUES ((SELECT id FROM urls WHERE short_url = %s), %s)
+            """, (short_url, local_ip))
         
         mysql.connection.commit()
         cur.close()
