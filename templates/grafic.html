@@ -210,9 +210,6 @@
                 <a href="{{ url_for('features') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-cogs me-2"></i><span>Features</span>
                 </a>
-                <a href="{{ url_for('pricing') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-tag me-2"></i><span>Pricing</span>
-                </a>
                 <a href="{{ url_for('mostrar_grafico') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold active">
                     <i class="fas fa-chart-line me-2"></i><span>Gráfico</span>
                 </a>
@@ -324,7 +321,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             renderChart();
         
-            // Atualizar o gráfico a cada 30 segundos
+            // Atualizar o gráfico a cada 10 segundos
             setInterval(() => {
                 const chartContainer = document.getElementById('chart-container');
                 chartContainer.innerHTML = '<canvas id="myChart" aria-label="Gráfico de Vendas" role="img"></canvas><div id="info"></div>';

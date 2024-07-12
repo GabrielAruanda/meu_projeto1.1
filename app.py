@@ -89,10 +89,6 @@ def home():
 def features():
     return render_template('features.html')
 
-@app.route('/pricing')
-def pricing():
-    return render_template('pricing.html')
-
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
     if request.method == 'POST':
@@ -154,12 +150,7 @@ def privacy():
 def terms():
     return render_template('terms.html')
 
-@app.route('/contratar_form/<plano>', methods=['GET', 'POST'])
-def contratar_form(plano):
-    if request.method == 'POST':
-        flash(f'Contratação do {plano} realizada com sucesso!', 'success')
-        return redirect(url_for('pagina_preco', plano=plano))
-    return render_template('contratar_form.html', plano=plano)
+
 
 # Rota para renderizar a página do gráfico
 @app.route('/grafic')
