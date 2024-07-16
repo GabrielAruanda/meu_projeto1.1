@@ -175,6 +175,7 @@ def get_click_data():
         return jsonify({'click_data': click_data})
     else:
         return jsonify({'click_data': []})
+    
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -59,6 +59,10 @@
             background-color: #0056b3;
             color: #fff;
         }
+        .list-group-item i {
+            margin-right: 10px; /* Espaçamento entre o ícone e o texto */
+        }
+
 
         /* Estilos para o conteúdo da página */
         #page-content-wrapper {
@@ -268,7 +272,8 @@
                     <div class="container">
                         <h2>Junte-se a nós hoje mesmo!</h2>
                         <p>Crie uma conta e comece a usar nossos serviços gratuitamente.</p>
-                        <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg">Cadastre-se agora</a>
+                        <a href="{{ url_for('register') }}" class="btn btn-primary">Cadastrar-se agora</a>
+
                     </div>
                 </section>
              
