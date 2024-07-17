@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoramento de URL</title>
+    <!-- Incluir links para Bootstrap e Font Awesome -->
+   <!-- Bootstrap CSS -->
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+   <!-- Font Awesome -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+   <!-- Estilos personalizados -->
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body style="font-family: Arial, sans-serif; margin: 0;">
+
+    <!-- Estilos CSS específicos para o encurtador de URL -->
+    <style>
+        .url-shortener-container {
+            margin: 50px auto;
+            max-width: 600px;
+        }
+
+        .url-shortener-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .url-shortener-card .card-header {
+            background-color: #f0f0f0;
+            color: #333;
+            border-radius: 8px 8px 0 0;
+            padding: 15px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .url-shortener-card .card-body {
+            padding: 20px;
+        }
+
+        .url-shortener-card .form-group {
+            margin-bottom: 20px;
+        }
+
+        .url-shortener-card .btn-primary {
+            width: 100%;
+        }
+
+        .url-shortener-list {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .url-shortener-list.show {
+            display: block;
+        }
+
+        .url-shortener-list .list-group-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            padding: 15px;
+        }
+
+        .show-more-button {
+            margin-top: 10px;
+        }
+
+        .list-group-item i {
+            margin-right: 10px;
+        }
+
+        /* Estilos específicos para o menu lateral */
+        #sidebar {
+            background-color: #007bff;
+            color: white;
+            width: 250px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .sidebar-heading {
+            padding: 15px;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+
+        .list-group-item {
+            padding: 20px;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            color: white;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .list-group-item:hover {
+            background-color: #0056b3;
+        }
+
+        #page-content-wrapper {
+            flex: 1;
+            padding: 20px;
+            margin-left: 250px;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #sidebar.collapsed {
+            width: 80px;
+        }
+
+        #sidebar.collapsed .list-group-item span {
+            display: none;
+        }
+
+        #sidebar.collapsed .sidebar-heading {
+            text-align: center;
+        }
+
+        #sidebar.collapsed #page-content-wrapper {
+            margin-left: 80px;
+        }
+
+        .toggle-btn {
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        #sidebar.collapsed .toggle-btn {
+            transform: rotate(180deg);
+        }
+
+    </style>
+
+    <d<div id="wrapper" class="d-flex">
+        <!-- Menu Lateral -->
+        <div id="sidebar" class="bg-primary border-right">
+            <!-- Cabeçalho do menu -->
+            <div class="sidebar-heading text-white text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
+                <i class="fas fa-user-secret me-2"></i>Meu Site <!-- Ícone e título do cabeçalho -->
+            </div>
+            <!-- Lista de links do menu -->
+            <div class="list-group list-group-flush my-3">
+                <a href="{{ url_for('home') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-home me-2"></i>Home <!-- Link para a página Home -->
+                </a>
+                <a href="{{ url_for('features') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-cogs me-2"></i>Features <!-- Link para a página de Features -->
+                </a>
+                {% if 'logged_in' in session %}
+                <a href="{{ url_for('mostrar_grafico') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-chart-line me-2"></i><span>Gráfico</span>
+                </a>
+                <a href="{{ url_for('monitoring') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-eye me-2"></i><span>Monitoramento</span> <!-- Link para a página de Monitoramento -->
+                </a>
+                {% else %}
+                {% endif %}
+                <a href="{{ url_for('contact') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-envelope me-2"></i>Contact <!-- Link para a página de Contact -->
+                </a>
+                <!-- Verifica se o usuário está logado e exibe links apropriados -->
+                {% if 'logged_in' in session %}
+                    <a href="{{ url_for('logout') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                        <i class="fas fa-sign-out-alt me-2"></i>Logout ({{ session['username'] }}) <!-- Link para fazer logout -->
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('register') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                        <i class="fas fa-user-plus me-2"></i>Cadastro <!-- Link para a página de Cadastro -->
+                    </a>
+                    <a href="{{ url_for('login') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login <!-- Link para a página de Login -->
+                    </a>
+                {% endif %}
+                
+               
+            </div>
+        </div>
+        <!-- Conteúdo da página -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <h1 class="mt-4">Monitoramento de URL</h1>
+                <!-- Cards de URLs monitoradas -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card url-shortener-card">
+                            <div class="card-header">
+                                <i class="fas fa-link me-2"></i>URL: <a href="#">www.example.com/url1</a>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Acessos Recentes</h5>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <strong>Data e Hora:</strong> 2024-07-17 10:30:00<br>
+                                        <strong>User Agent:</strong> Mozilla/5.0 (Windows NT 10.0; Win64; x64)
+                                        AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36<br>
+                                        <strong>IP:</strong> 192.168.1.1
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Data e Hora:</strong> 2024-07-17 11:45:00<br>
+                                        <strong>User Agent:</strong> Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like
+                                        Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148
+                                        Safari/604.1<br>
+                                        <strong>IP:</strong> 172.16.1.1
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card url-shortener-card">
+                            <div class="card-header">
+                                <i class="fas fa-link me-2"></i>URL: <a href="#">www.example.com/url2</a>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Acessos Recentes</h5>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <strong>Data e Hora:</strong> 2024-07-17 09:15:00<br>
+                                        <strong>User Agent:</strong> Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)
+                                        AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36<br>
+                                        <strong>IP:</strong> 10.0.0.1
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <!-- Scripts JavaScript necessários -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <!-- Biblioteca jQuery -->
+    <!-- Scripts JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"
+        integrity="sha512-3YRms0j/U/T1IeDNpE7lb7MW7ZnA0NQG9OlH+3iKq2XFC9fZUWptxGjQFmT6X5iH0FCfR3bMWxP9VREanQKJig=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+
+</html>

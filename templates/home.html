@@ -72,10 +72,15 @@
                 <a href="{{ url_for('features') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-cogs me-2"></i>Features <!-- Link para a página de Features -->
                 </a>
-               
+                {% if 'logged_in' in session %}
                 <a href="{{ url_for('mostrar_grafico') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-chart-line me-2"></i><span>Gráfico</span>
                 </a>
+                <a href="{{ url_for('monitoring') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                    <i class="fas fa-eye me-2"></i><span>Monitoramento</span> <!-- Link para a página de Monitoramento -->
+                </a>
+                {% else %}
+                {% endif %}
                 <a href="{{ url_for('contact') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-envelope me-2"></i>Contact <!-- Link para a página de Contact -->
                 </a>
@@ -92,6 +97,8 @@
                         <i class="fas fa-sign-in-alt me-2"></i>Login <!-- Link para a página de Login -->
                     </a>
                 {% endif %}
+                
+               
             </div>
         </div>
         <!-- Conteúdo da Página -->
@@ -130,6 +137,8 @@
                                             <!-- Exibe a URL encurtada com link -->
                                             <p class="mb-1"><strong>Número de Cliques:</strong> {{ url[3] }}</p>
                                             <!-- Exibe o número de cliques na URL -->
+                                             
+                                             
                                         </div>
                                     </div>
                                 </li>

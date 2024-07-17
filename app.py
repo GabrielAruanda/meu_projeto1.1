@@ -188,7 +188,20 @@ def get_click_data():
         return jsonify({'click_data': click_data})  # Retorna os dados de cliques em formato JSON
     else:
         return jsonify({'click_data': []})  # Retorna uma lista vazia se o usuário não estiver logado
+    
+# Dados fictícios para simulação de acesso monitorado
+monitored_url = {
+    'url': 'http://example.com',
+    'access_data': [
+        {'timestamp': '2024-07-17 10:00:00', 'user_agent': 'Mozilla/5.0', 'ip_address': '192.168.1.1'},
+        {'timestamp': '2024-07-17 10:15:00', 'user_agent': 'Chrome/80.0', 'ip_address': '192.168.1.2'},
+        # Adicione mais dados conforme necessário
+    ]
+}
 
+@app.route('/monitoring')
+def monitoring():
+    return render_template('monitoring.html', monitored_url=monitored_url)
 # Executa o aplicativo Flask
 if __name__ == '__main__':
     app.run(debug=True)
