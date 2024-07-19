@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from flask_mysqldb import MySQL  # Importa a extensão MySQL para Flask
 from config import Config  # Importa as configurações do arquivo Config.py
+import MySQLdb.cursors
 import random
 import string
 from werkzeug.security import generate_password_hash, check_password_hash  # Importa funções de hash de senha
@@ -201,7 +202,35 @@ monitored_url = {
 
 @app.route('/monitoring')
 def monitoring():
-    return render_template('monitoring.html', monitored_url=monitored_url)
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+
+    # Buscar URLs
+    cursor.execute('SELECT * FROM urls')
+    urls = cursor.fetchall()
+
+    # Buscar cliques recentes
+    cursor.execute('''
+        SELECT COUNT(*) AS total_clicks, 
+               MAX(click_time) AS last_click_time, 
+               (SELECT original_url FROM urls WHERE id = c.url_id) AS last_clicked_url, 
+               (SELECT username FROM users WHERE id = c.user_id) AS last_click_user
+        FROM clicks c
+        ORDER BY click_time DESC
+        LIMIT 1
+    ''')
+    click_data = cursor.fetchone()
+
+    cursor.close()
+
+    return render_template('monitoring.html', urls=urls, 
+                           total_clicks=click_data['total_clicks'],
+                           last_click_time=click_data['last_click_time'],
+                           last_clicked_url=click_data['last_clicked_url'],
+                           last_click_user=click_data['last_click_user'],
+                           last_click_address=['last_local_ip_address'])
+                          
+    
 # Executa o aplicativo Flask
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True) 
+    
