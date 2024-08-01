@@ -225,8 +225,8 @@
                                     <li class="list-group-item">
                                         <strong>URL Original:</strong> {{ url.original_url }} <br>
                                         <strong>URL Encurtada:</strong> {{ url.short_url }} <br>
-                                        <strong>Clicks Totais:</strong> {{ url.total_clicks }} <br>
-                                        <strong>Criada em:</strong> {{ url.created_at }}
+                                        <strong>Clicks Totais:</strong> {{ url.click_count }} <br>
+                                        <strong>Criada em:</strong> {{ url.click_time }}
                                     </li>
                                     {% endfor %}
                                 </ul>
@@ -242,10 +242,8 @@
                                 <ul class="list-group">
                                     <li class="">
                                         <strong>Total de Cliques:</strong> {{ total_clicks }} <br>
-                                        <strong>Último Clique:</strong> {{ last_click_time }} <br>
-                                        <strong>URL:</strong> {{ last_clicked_url }} <br>
-                                        <strong>Usuário:</strong> {{ last_click_user }}
-                                        <strong>Ip:</strong> {{ last_local_ip_address }} <br>
+                                        <strong>Usuário:</strong> {{ last_click_user }} <br>
+                                        <strong>Ip:</strong> {{ last_click_address }} <br>
                                         
                                     </li>
                                 </ul>

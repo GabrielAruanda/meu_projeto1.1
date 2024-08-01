@@ -205,7 +205,27 @@ def monitoring():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
 
     # Buscar URLs
-    cursor.execute('SELECT * FROM urls')
+    cursor.execute(''' select 
+        u.id,
+        u.original_url,
+        u.short_url,
+        u.click_count,
+        u.user_id,
+        c.local_ip_address ,
+        max(c.click_time) click_time
+    from 
+        urls u
+        join clicks c on c.url_id = u.id 
+    group by
+        u.id,
+        u.original_url,
+        u.short_url,
+        u.click_count,
+        u.user_id,
+        c.local_ip_address
+    order by 
+        c.click_time desc
+    ;''')
     urls = cursor.fetchall()
 
     # Buscar cliques recentes
@@ -213,12 +233,14 @@ def monitoring():
         SELECT COUNT(*) AS total_clicks, 
                MAX(click_time) AS last_click_time, 
                (SELECT original_url FROM urls WHERE id = c.url_id) AS last_clicked_url, 
-               (SELECT username FROM users WHERE id = c.user_id) AS last_click_user
+               (SELECT username FROM users WHERE id = c.user_id) AS last_click_user, 
+               local_ip_address 
         FROM clicks c
         ORDER BY click_time DESC
         LIMIT 1
     ''')
     click_data = cursor.fetchone()
+    print(click_data)
 
     cursor.close()
 
@@ -227,7 +249,7 @@ def monitoring():
                            last_click_time=click_data['last_click_time'],
                            last_clicked_url=click_data['last_clicked_url'],
                            last_click_user=click_data['last_click_user'],
-                           last_click_address=['last_local_ip_address'])
+                           last_click_address=click_data['local_ip_address'])
                           
     
 # Executa o aplicativo Flask
