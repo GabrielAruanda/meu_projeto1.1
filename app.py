@@ -202,33 +202,40 @@ monitored_url = {
 
 @app.route('/monitoring')
 def monitoring():
+    if 'user_id' not in session:
+        # Redirecionar para a página de login se o usuário não estiver logado
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
 
-    # Buscar URLs
-    cursor.execute(''' select 
+    # Buscar URLs do usuário logado
+    cursor.execute(''' SELECT 
         u.id,
         u.original_url,
         u.short_url,
         u.click_count,
         u.user_id,
-        c.local_ip_address ,
+        c.local_ip_address,
         max(c.click_time) click_time
-    from 
+    FROM 
         urls u
-        join clicks c on c.url_id = u.id 
-    group by
+        JOIN clicks c ON c.url_id = u.id 
+    WHERE
+        u.user_id = %s
+    GROUP BY
         u.id,
         u.original_url,
         u.short_url,
         u.click_count,
         u.user_id,
         c.local_ip_address
-    order by 
-        c.click_time desc
-    ;''')
+    ORDER BY 
+        c.click_time DESC
+    ;''', (user_id,))
     urls = cursor.fetchall()
 
-    # Buscar cliques recentes
+    # Buscar cliques recentes do usuário logado
     cursor.execute('''
         SELECT COUNT(*) AS total_clicks, 
                MAX(click_time) AS last_click_time, 
@@ -236,11 +243,11 @@ def monitoring():
                (SELECT username FROM users WHERE id = c.user_id) AS last_click_user, 
                local_ip_address 
         FROM clicks c
+        WHERE c.user_id = %s
         ORDER BY click_time DESC
         LIMIT 1
-    ''')
+    ''', (user_id,))
     click_data = cursor.fetchone()
-    print(click_data)
 
     cursor.close()
 
@@ -250,8 +257,7 @@ def monitoring():
                            last_clicked_url=click_data['last_clicked_url'],
                            last_click_user=click_data['last_click_user'],
                            last_click_address=click_data['local_ip_address'])
-                          
-    
+
 # Executa o aplicativo Flask
 if __name__ == '__main__':
     app.run(debug=True) 

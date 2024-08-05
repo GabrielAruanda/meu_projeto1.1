@@ -212,6 +212,7 @@
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <h1 class="mt-4 text-center">Monitoramento de URL</h1>
+                
                 <!-- Cards de URLs -->
                 <div class="row">
                     <div class="col-md-6">
@@ -226,13 +227,14 @@
                                         <strong>URL Original:</strong> {{ url.original_url }} <br>
                                         <strong>URL Encurtada:</strong> {{ url.short_url }} <br>
                                         <strong>Clicks Totais:</strong> {{ url.click_count }} <br>
-                                        <strong>Ultimo Click:</strong> {{ url.click_time }}
+                                        <strong>Último Click:</strong> {{ url.click_time }}
                                     </li>
                                     {% endfor %}
                                 </ul>
                             </div>
                         </div>
                     </div>
+                    
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-header">
@@ -240,10 +242,10 @@
                             </div>
                             <div class="card-body">
                                 <ul class="list-group">
-                                    <li class="">
+                                    <li class="list-group-item">
                                         <strong>Total de Cliques:</strong> {{ total_clicks }} <br>
                                         <strong>Usuário:</strong> {{ last_click_user }} <br>
-                                        <strong>Ip:</strong> {{ last_click_address }} <br>
+                                        <strong>IP:</strong> {{ last_click_address }} <br>
                                         
                                     </li>
                                 </ul>
@@ -253,6 +255,7 @@
                 </div>
             </div>
         </div>
+        
     </div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
