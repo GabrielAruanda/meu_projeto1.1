@@ -9,61 +9,23 @@
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <!-- Estilos personalizados específicos para esta página -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/fontawesome.min.css') }}">
     <style>
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f8f9fa;
         }
-        
-        /* Estilos para a barra lateral */
-        #sidebar {
-            height: 100%;
-            width: 250px;
-            background-color: #007bff;
-            display: flex;
-            flex-direction: column;
-            transition: all 0.3s;
-            overflow: hidden;
-            position: fixed;
-        }
-        
-        /* Estilos para o cabeçalho da barra lateral */
-        .sidebar-heading {
-            padding: 15px;
-            font-size: 1.5rem;
-            text-align: center;
-            color: white;
-        }
-        
-        #sidebar .list-group-item {
-            color: white;
-            border: none;
-        }
-
-        #sidebar .list-group-item:hover {
-            background-color: #0056b3;
-        }
-
-        .list-group-item {
-            border: none;
-            color: #ddd;
-            padding: 20px;
-            transition: all 0.3s;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-        }
-
-        .list-group-item:hover, 
-        .list-group-item.active {
-            background-color: #0056b3;
-            color: #fff;
-        }
         .list-group-item i {
             margin-right: 10px; /* Espaçamento entre o ícone e o texto */
         }
-
-
+        .ms-3{
+            margin-left: 10px;
+        }
+        .sidebar-heading i {
+            margin-right: 10px;
+        }
         /* Estilos para o conteúdo da página */
         #page-content-wrapper {
             margin-left: 250px;
@@ -168,10 +130,10 @@
             <!-- Lista de links do menu -->
             <div class="list-group list-group-flush my-3">
                 <a href="{{ url_for('home') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-home me-2"></i>Home <!-- Link para a página Home -->
+                    <i class="fas fa-home me-2"></i>Inicio <!-- Link para a página Home -->
                 </a>
                 <a href="{{ url_for('features') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-cogs me-2"></i>Features <!-- Link para a página de Features -->
+                    <i class="fas fa-cogs me-2"></i>Características <!-- Link para a página de Features -->
                 </a>
                 {% if 'logged_in' in session %}
                 <a href="{{ url_for('mostrar_grafico') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
@@ -180,11 +142,12 @@
                 <a href="{{ url_for('monitoring') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-eye me-2"></i><span>Monitoramento</span> <!-- Link para a página de Monitoramento -->
                 </a>
-                {% else %}
-                {% endif %}
                 <a href="{{ url_for('contact') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-envelope me-2"></i>Contact <!-- Link para a página de Contact -->
                 </a>
+                {% else %}
+                {% endif %}
+               
                 <!-- Verifica se o usuário está logado e exibe links apropriados -->
                 {% if 'logged_in' in session %}
                     <a href="{{ url_for('logout') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">

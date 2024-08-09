@@ -11,6 +11,9 @@
     <!-- Estilos personalizados -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <style>
+        .ms-3{
+            margin-left: 10px;
+        }
         @media (max-width: 768px) {
             #sidebar {
                 width: 100%;
@@ -38,12 +41,15 @@
             flex-wrap: wrap;
         }
         .sidebar-heading {
-            font-size: 1.2rem;
+            font-size: 1.5rem; /* Ajuste o tamanho do texto conforme necessário */
+        }
+        .sidebar-heading i {
+            margin-right: 10px;
         }
         .list-group-item {
             font-size: 1rem;
         }
-         .list-group-item i {
+        .list-group-item i {
             margin-right: 10px; /* Espaçamento entre o ícone e o texto */
         }
 
@@ -63,10 +69,10 @@
             <!-- Lista de links do menu -->
             <div class="list-group list-group-flush my-3">
                 <a href="{{ url_for('home') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-home me-2"></i>Home <!-- Link para a página Home -->
+                    <i class="fas fa-home me-2"></i>Inicio <!-- Link para a página Home -->
                 </a>
                 <a href="{{ url_for('features') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-cogs me-2"></i>Features <!-- Link para a página de Features -->
+                    <i class="fas fa-cogs me-2"></i>Características <!-- Link para a página de Features -->
                 </a>
                 {% if 'logged_in' in session %}
                 <a href="{{ url_for('mostrar_grafico') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
@@ -75,11 +81,12 @@
                 <a href="{{ url_for('monitoring') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-eye me-2"></i><span>Monitoramento</span> <!-- Link para a página de Monitoramento -->
                 </a>
-                {% else %}
-                {% endif %}
                 <a href="{{ url_for('contact') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-envelope me-2"></i>Contact <!-- Link para a página de Contact -->
                 </a>
+                {% else %}
+                {% endif %}
+               
                 <!-- Verifica se o usuário está logado e exibe links apropriados -->
                 {% if 'logged_in' in session %}
                     <a href="{{ url_for('logout') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
