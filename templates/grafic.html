@@ -215,9 +215,6 @@
                 <a href="{{ url_for('home') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-home me-2"></i>Inicio <!-- Link para a página Home -->
                 </a>
-                <a href="{{ url_for('features') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-cogs me-2"></i>Características <!-- Link para a página de Features -->
-                </a>
                 {% if 'logged_in' in session %}
                 <a href="{{ url_for('mostrar_grafico') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-chart-line me-2"></i><span>Gráfico</span>
@@ -237,6 +234,9 @@
                         <i class="fas fa-sign-out-alt me-2"></i>Logout ({{ session['username'] }}) <!-- Link para fazer logout -->
                     </a>
                 {% else %}
+                    <a href="{{ url_for('features') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                        <i class="fas fa-cogs me-2"></i>Características <!-- Link para a página de Features -->
+                    </a>
                     <a href="{{ url_for('register') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                         <i class="fas fa-user-plus me-2"></i>Cadastro <!-- Link para a página de Cadastro -->
                     </a>

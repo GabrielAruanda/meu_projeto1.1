@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,44 +9,81 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <!-- Estilos personalizados específicos para esta página -->
+    <!-- Estilos personalizados -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/fontawesome.min.css') }}">
+
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
+        /* Estilos para a barra lateral */
+        #sidebar {
+            height: 100%;
+            width: 250px;
+            background-color: #007bff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            overflow-x: hidden;
         }
+
+        /* Estilos para o cabeçalho da barra lateral */
+        .sidebar-heading {
+            padding: 1rem;
+            font-size: 1.5rem;
+            text-align: center;
+            color: white;
+        }
+
+        #sidebar .list-group-item {
+            color: white;
+            border: none;
+        }
+
+        #sidebar .list-group-item:hover {
+            background-color: #0056b3;
+        }
+
+        .list-group-item {
+            border: none;
+            color: #ddd;
+            padding: 1rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .list-group-item:hover,
+        .list-group-item.active {
+            background-color: #0056b3;
+            color: #34dde3;
+        }
+
         .list-group-item i {
-            margin-right: 10px; /* Espaçamento entre o ícone e o texto */
+            margin-right: 0.5rem;
         }
-        .ms-3{
-            margin-left: 10px;
-        }
-        .sidebar-heading i {
-            margin-right: 10px;
-        }
-        /* Estilos para o conteúdo da página */
+
+        /* Estilo para o conteúdo principal */
         #page-content-wrapper {
             margin-left: 250px;
-            width: calc(100% - 250px);
-            padding: 20px;
-        }
-        
-        .jumbotron {
-            background: linear-gradient(90deg, rgba(0,123,255,1) 0%, rgba(0,210,255,1) 100%);
-            color: white;
             padding: 2rem;
+            background-color: #f8f9fa;
+            flex: 1;
+        }
+
+        .jumbotron {
+            background-color: #007bff;
+            color: white;
+            padding: 3rem 1rem;
+            border-radius: 0.5rem;
         }
 
         .card {
             border: none;
-            transition: transform 0.2s;
+            border-radius: 0.5rem;
+            transition: transform 0.3s ease;
         }
 
         .card:hover {
-            transform: scale(1.05);
+            transform: translateY(-0.5rem);
         }
 
         .card-body i {
@@ -53,218 +91,224 @@
         }
 
         .testimonial {
-            background-color: #fff;
+            background-color: #f8f9fa;
             padding: 1rem;
             border-radius: 0.5rem;
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-            margin-bottom: 1rem;
+            box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
         }
 
+        .testimonial p {
+            font-style: italic;
+        }
+
+        .testimonial small {
+            color: #6c757d;
+        }
+
+        /* Estilo para a seção de botões */
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .btn-container a {
+            text-decoration: none;
+            width: 100%;
+        }
+
+        .btn-register, .btn-login {
+            color: #007bff;
+            border: 1px solid #007bff;
+            background-color: #f8f9fa; /* Cor de fundo da página */
+            font-size: 1.25rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-register:hover, .btn-login:hover {
+            background-color: #e2e6ea; /* Tom de azul mais claro para hover */
+            border-color: #0056b3; /* Cor do contorno para hover */
+            color: #0056b3; /* Cor do texto para hover */
+        }
+
+        /* Estilo para o rodapé */
         footer {
             background-color: #007bff;
             color: white;
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            width: calc(100% - 250px);
+            margin-left: 250px;
         }
 
         footer a {
-            color: white;
-            text-decoration: underline;
+            color: #ccc;
+            margin: 0 10px;
         }
 
-        .btn-primary {
-            background-color: #007bff;
-            border: none;
+        footer a:hover {
+            color: #fff;
         }
 
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        /* Estilos responsivos */
-        @media (max-width: 767.98px) {
+        /* Responsividade */
+        @media (max-width: 992px) {
             #sidebar {
                 width: 100%;
                 height: auto;
-                position: relative;
+                position: static;
+                z-index: 1;
             }
-            #sidebar .list-group-item {
-                text-align: center;
-                padding: 10px;
-            }
+
             #page-content-wrapper {
                 margin-left: 0;
-                width: 100%;
-            }
-            .jumbotron {
-                padding: 1rem;
             }
         }
 
-        @media (min-width: 768px) and (max-width: 991.98px) {
-            #sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-            }
-            #sidebar .list-group-item {
-                text-align: center;
-                padding: 10px;
-            }
-            #page-content-wrapper {
-                margin-left: 0;
-                width: 100%;
-            }
+        @media (max-width: 768px) {
             .jumbotron {
-                padding: 1rem;
+                padding: 2rem 1rem;
+            }
+
+            .btn-container {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .btn-register, .btn-login {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .jumbotron h1 {
+                font-size: 2rem;
+            }
+
+            .jumbotron p {
+                font-size: 1rem;
+            }
+
+            .card {
+                margin-bottom: 1rem;
+            }
+
+            .testimonial {
+                font-size: 0.875rem;
             }
         }
     </style>
 </head>
+
 <body>
     <div id="wrapper" class="d-flex">
         <!-- Menu Lateral -->
         <div id="sidebar" class="bg-primary border-right">
             <!-- Cabeçalho do menu -->
             <div class="sidebar-heading text-white text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
-                <i class="fas fa-user-secret me-2"></i>Meu Site <!-- Ícone e título do cabeçalho -->
+                <i class="fas fa-user-secret me-2"></i>Meu Site
             </div>
             <!-- Lista de links do menu -->
             <div class="list-group list-group-flush my-3">
                 <a href="{{ url_for('home') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-home me-2"></i>Inicio <!-- Link para a página Home -->
-                </a>
-                <a href="{{ url_for('features') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-cogs me-2"></i>Características <!-- Link para a página de Features -->
+                    <i class="fas fa-home me-2"></i><span>Início</span>
                 </a>
                 {% if 'logged_in' in session %}
                 <a href="{{ url_for('mostrar_grafico') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
                     <i class="fas fa-chart-line me-2"></i><span>Gráfico</span>
                 </a>
                 <a href="{{ url_for('monitoring') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-eye me-2"></i><span>Monitoramento</span> <!-- Link para a página de Monitoramento -->
+                    <i class="fas fa-eye me-2"></i><span>Monitoramento</span>
                 </a>
                 <a href="{{ url_for('contact') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-envelope me-2"></i>Contact <!-- Link para a página de Contact -->
+                    <i class="fas fa-envelope me-2"></i><span>Contato</span>
                 </a>
-                {% else %}
                 {% endif %}
-               
-                <!-- Verifica se o usuário está logado e exibe links apropriados -->
                 {% if 'logged_in' in session %}
                     <a href="{{ url_for('logout') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                        <i class="fas fa-sign-out-alt me-2"></i>Logout ({{ session['username'] }}) <!-- Link para fazer logout -->
+                        <i class="fas fa-sign-out-alt me-2"></i><span>Logout ({{ session['username'] }})</span>
                     </a>
                 {% else %}
+                    <a href="{{ url_for('features') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
+                        <i class="fas fa-cogs me-2"></i>Características
+                    </a>
                     <a href="{{ url_for('register') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                        <i class="fas fa-user-plus me-2"></i>Cadastro <!-- Link para a página de Cadastro -->
+                        <i class="fas fa-user-plus me-2"></i>Registrar-se
                     </a>
                     <a href="{{ url_for('login') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                        <i class="fas fa-sign-in-alt me-2"></i>Login <!-- Link para a página de Login -->
+                        <i class="fas fa-sign-in-alt me-2"></i>Login
                     </a>
                 {% endif %}
-                
-               
             </div>
         </div>
-        <!-- Conteúdo da Página -->
+
+        <!-- Conteúdo Principal -->
         <div id="page-content-wrapper">
-            <div class="container-fluid mt-3">
-                <!-- Seção de Boas-vindas -->
-                <section class="jumbotron text-center">
-                    <div class="container">
-                        <h1 class="jumbotron-heading">Bem-vindo ao Meu Site com Flask</h1>
-                        <p class="lead text-muted">Página inicial com informações gerais sobre o site e várias outras funções.</p>
-                    </div>
-                </section>
+            <div class="container-fluid">
+                <!-- Jumbotron -->
+                <div class="jumbotron text-center">
+                    <h1 class="display-4">Bem-vindo ao Meu Site</h1>
+                    <p class="lead">Uma solução simples e eficiente para monitoramento de URLs.</p>
+                    <hr class="my-4">
+                    <p>Clique nos links do menu ao lado para explorar nossas funcionalidades.</p>
+                    {% if not 'logged_in' in session %}
+                        <div class="btn-container">
+                            <a class="btn btn-register" href="{{ url_for('register') }}" role="button">Registrar-se</a>
+                            <a class="btn btn-login" href="{{ url_for('login') }}" role="button">Login</a>
+                        </div>
+                    {% endif %}
+                </div>
 
-                <!-- Funcionalidades principais -->
-                <section class="my-5">
-                    <div class="container">
-                        <div class="row text-center">
-                            <div class="col-md-4 col-sm-6 mb-4">
-                                <div class="card shadow-sm">
-                                    <div class="card-body">
-                                        <i class="fas fa-link fa-3x mb-3"></i>
-                                        <h5 class="card-title">Encurtamento de URL</h5>
-                                        <p class="card-text">Encurte URLs longas em links curtos e fáceis de compartilhar.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6 mb-4">
-                                <div class="card shadow-sm">
-                                    <div class="card-body">
-                                        <i class="fas fa-users fa-3x mb-3"></i>
-                                        <h5 class="card-title">Gerenciamento de Usuários</h5>
-                                        <p class="card-text">Adicione, remova e gerencie usuários com facilidade.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6 mb-4">
-                                <div class="card shadow-sm">
-                                    <div class="card-body">
-                                        <i class="fas fa-chart-line fa-3x mb-3"></i>
-                                        <h5 class="card-title">Análise de Dados</h5>
-                                        <p class="card-text">Obtenha insights e relatórios detalhados sobre o uso do site.</p>
-                                    </div>
-                                </div>
+                <!-- Cards de informações -->
+                <div class="row text-center mb-4">
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <i class="fas fa-chart-bar fa-3x"></i>
+                                <h5 class="card-title mt-3">Monitoramento</h5>
+                                <p class="card-text">Visualize dados de cliques e atividades em gráficos interativos.</p>
                             </div>
                         </div>
                     </div>
-                </section>
-
-                <!-- Testemunhos -->
-                <section class="my-5">
-                    <div class="container">
-                        <h2 class="text-center mb-4">O que nossos usuários dizem</h2>
-                        <div class="row">
-                            <div class="col-md-4 col-sm-6 mb-4">
-                                <div class="testimonial">
-                                    <p>"Este site é fantástico! Ele realmente ajudou a simplificar minhas tarefas diárias."</p>
-                                    <small>- João Silva</small>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6 mb-4">
-                                <div class="testimonial">
-                                    <p>"Recomendo para todos os meus amigos. Interface intuitiva e funcionalidades poderosas."</p>
-                                    <small>- Maria Oliveira</small>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-6 mb-4">
-                                <div class="testimonial">
-                                    <p>"A equipe de suporte é muito eficiente e sempre pronta para ajudar."</p>
-                                    <small>- Pedro Santos</small>
-                                </div>
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <i class="fas fa-lock fa-3x"></i>
+                                <h5 class="card-title mt-3">Segurança</h5>
+                                <p class="card-text">Protegemos seus dados com os mais altos padrões de segurança.</p>
                             </div>
                         </div>
                     </div>
-                </section>
-
-                <!-- Call to Action -->
-                <section class="my-5 text-center">
-                    <div class="container">
-                        <h2>Junte-se a nós hoje mesmo!</h2>
-                        <p>Crie uma conta e comece a usar nossos serviços gratuitamente.</p>
-                        <a href="{{ url_for('register') }}" class="btn btn-primary">Cadastrar-se agora</a>
-
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <i class="fas fa-cogs fa-3x"></i>
+                                <h5 class="card-title mt-3">Características</h5>
+                                <p class="card-text">Explore todas as funcionalidades que oferecemos para facilitar seu gerenciamento.</p>
+                            </div>
+                        </div>
                     </div>
-                </section>
-             
-                <!-- Rodapé -->
-                <footer class="text-center py-3">
-                    <div class="container">
-                        <p>© 2023 Meu Site com Flask. Todos os direitos reservados.</p>
-                        <a href="{{ url_for('privacy') }}" class="text-white">Política de Privacidade</a> | 
-                        <a href="{{ url_for('terms') }}" class="text-white">Termos de Uso</a>
-                    </div>
-                </footer>
+                </div>
+
             </div>
         </div>
     </div>
 
-    <!-- Scripts JavaScript necessários -->
+    <!-- Rodapé -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Meu Site. Todos os direitos reservados.</p>
+            <a href="{{ url_for('privacy') }}" class="text-white">Política de Privacidade</a> | 
+            <a href="{{ url_for('terms') }}" class="text-white">Termos de Uso</a>
+        </div>
+    </footer>
+
+    <!-- Scripts Bootstrap e jQuery -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <!-- Script personalizado -->
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
+
 </html>
