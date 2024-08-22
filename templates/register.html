@@ -22,23 +22,21 @@
             height: 100%;
             width: 250px;
             background-color: #007bff;
-            display: flex;
-            flex-direction: column;
-            transition: all 0.3s;
-            overflow: hidden;
             position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            overflow-x: hidden;
         }
 
         /* Estilos para o cabeçalho da barra lateral */
         .sidebar-heading {
-            padding: 15px;
+            padding: 1rem;
             font-size: 1.5rem;
             text-align: center;
             color: white;
         }
-        .ms-3{
-            margin-left: 10px;
-        }
+
         #sidebar .list-group-item {
             color: white;
             border: none;
@@ -54,9 +52,8 @@
         .list-group-item {
             border: none;
             color: #ddd;
-            padding: 20px;
+            padding: 1rem;
             transition: all 0.3s;
-            white-space: nowrap;
             display: flex;
             align-items: center;
         }
@@ -66,10 +63,10 @@
             background-color: #0056b3;
             color: #fff;
         }
-        .list-group-item i {
-            margin-right: 10px; /* Espaçamento entre o ícone e o texto */
-        }
 
+        .list-group-item i {
+            margin-right: 0.5rem;
+        }
 
         /* Estilos para o conteúdo da página */
         #page-content-wrapper {

@@ -6,6 +6,7 @@
     <title>Gráfico Interativo com Chart.js</title>
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -26,9 +27,6 @@
             transition: all 0.3s;
             overflow: hidden;
             position: fixed;
-        }
-        .ms-3{
-            margin-left: 10px;
         }
         /* Estilos para o cabeçalho da barra lateral */
         .sidebar-heading {
@@ -53,21 +51,20 @@
         .list-group-item {
             border: none;
             color: #ddd;
-            padding: 20px;
+            padding: 1rem;
             transition: all 0.3s;
-            white-space: nowrap;
             display: flex;
             align-items: center;
         }
 
-        .list-group-item:hover, 
+        .list-group-item:hover,
         .list-group-item.active {
             background-color: #0056b3;
-            color: #fff;
+            color: #34dde3;
         }
 
         .list-group-item i {
-            margin-right: 10px; /* Espaçamento entre o ícone e o texto */
+            margin-right: 5px;
         }
 
         /* Estilos para o conteúdo da página */
@@ -223,7 +220,7 @@
                     <i class="fas fa-eye me-2"></i><span>Monitoramento</span> <!-- Link para a página de Monitoramento -->
                 </a>
                 <a href="{{ url_for('contact') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-envelope me-2"></i>Contact <!-- Link para a página de Contact -->
+                    <i class="fas fa-envelope me-2"></i>Contato <!-- Link para a página de Contact -->
                 </a>
                 {% else %}
                 {% endif %}

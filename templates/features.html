@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     
     <style>
-        /* Estilos CSS adicionais */
+        * Estilos CSS adicionais */
         body {
             background-color: #f0f0f0; /* Cor de fundo do corpo */
             font-family: Arial, sans-serif;
@@ -36,9 +36,7 @@
             overflow: hidden;
             position: fixed;
         }
-        .ms-3{
-            margin-left: 10px;
-        }
+        
         /* Estilos para o cabeçalho da barra lateral */
         .sidebar-heading {
             padding: 15px;
@@ -49,15 +47,25 @@
         .sidebar-heading i {
             margin-right: 10px;
         }
-        .list-group-item {
+        #sidebar .list-group-item {
             color: white;
             border: none;
         }
+
+        .list-group-item {
+            border: none;
+            color: #ddd;
+            padding: 1rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
         .list-group-item:hover {
             background-color: #0056b3;
         }
         .list-group-item i {
-            margin-right: 10px; /* Espaçamento entre o ícone e o texto */
+            margin-right: 0.5rem;
         }
 
         #page-content-wrapper {
@@ -113,6 +121,7 @@
                 text-align: center;
             }
         }
+
     </style>
 </head>
 <body>

@@ -11,20 +11,40 @@
     <!-- Estilos personalizados -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <style>
-        .ms-3{
-            margin-left: 10px;
-        }
+        /* Estilo para dispositivos móveis */
         @media (max-width: 768px) {
             #sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
+                width: 0;
+                overflow: hidden;
+                transition: width 0.3s ease;
+            }
+            #sidebar.show {
+                width: 250px;
             }
             #page-content-wrapper {
+                margin-left: 0;
                 width: 100%;
-                padding: 0;
+                padding: 15px;
+                transition: margin-left 0.3s ease;
+            }
+            #page-content-wrapper.sidebar-open {
+                margin-left: 250px;
+            }
+            .navbar-toggler {
+                position: absolute;
+                top: 15px;
+                left: 15px;
+                z-index: 1100;
+                font-size: 1.5rem;
+                color: white;
+                background-color: #007bff; /* Cor do botão de hambúrguer */
+                border: none;
+                padding: 10px 15px;
+                border-radius: 5px;
             }
         }
+
+        /* Estilo para telas maiores */
         @media (min-width: 769px) {
             #sidebar {
                 width: 250px;
@@ -35,26 +55,68 @@
                 margin-left: 250px;
                 width: calc(100% - 250px);
             }
+            .navbar-toggler {
+                display: none;
+            }
         }
+
         #wrapper {
             display: flex;
             flex-wrap: wrap;
         }
-        .sidebar-heading {
-            font-size: 1.5rem; /* Ajuste o tamanho do texto conforme necessário */
+
+        #sidebar {
+            height: 100%;
+            background-color: #007bff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            overflow-x: hidden;
+            transition: width 0.3s ease;
         }
+
+        .sidebar-heading {
+            padding: 1rem;
+            font-size: 1.5rem;
+            text-align: center;
+            color: white;
+        }
+
+        #sidebar .list-group-item:hover {
+            background-color: #0056b3;
+        }
+
+        .list-group-item {
+            border: none;
+            color: #f8f9fa;
+            padding: 1rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .list-group-item:hover,
+        .list-group-item.active {
+            background-color: #0056b3;
+            color: #ffffff;
+        }
+
         .sidebar-heading i {
             margin-right: 10px;
         }
-        .list-group-item {
-            font-size: 1rem;
-        }
+
         .list-group-item i {
-            margin-right: 10px; /* Espaçamento entre o ícone e o texto */
+            margin-right: 5px;
         }
 
         .container-fluid {
             padding-top: 20px;
+        }
+
+        button[type="submit"] {
+            display: block;
+            margin: 20px auto;
         }
     </style>
 </head>
@@ -80,7 +142,7 @@
                     <i class="fas fa-eye me-2"></i><span>Monitoramento</span> <!-- Link para a página de Monitoramento -->
                 </a>
                 <a href="{{ url_for('contact') }}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold">
-                    <i class="fas fa-envelope me-2"></i>Contact <!-- Link para a página de Contact -->
+                    <i class="fas fa-envelope me-2"></i>Contato <!-- Link para a página de Contact -->
                 </a>
                 {% else %}
                 {% endif %}

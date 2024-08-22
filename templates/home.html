@@ -13,48 +13,75 @@
     <style>
         /* Estilos adicionais específicos para o encurtador de URL */
         .url-shortener-container {
-            margin: 50px auto; /* Define margem superior e inferior de 50px e centraliza horizontalmente */
-            max-width: 600px; /* Define largura máxima do container */
+            margin: 50px auto;
+            max-width: 600px;
         }
         .url-shortener-card {
-            border: 1px solid #ddd; /* Adiciona borda de 1px sólida com cor cinza */
-            border-radius: 8px; /* Adiciona bordas arredondadas */
+            border: 1px solid #ddd;
+            border-radius: 8px;
         }
         .url-shortener-card .card-header {
-            background-color: #f0f0f0; /* Define cor de fundo do cabeçalho do card */
-            color: white; /* Define cor do texto do cabeçalho */
-            border-radius: 8px 8px 0 0; /* Adiciona bordas arredondadas apenas no topo */
+            background-color: #f0f0f0;
+            color: white;
+            border-radius: 8px 8px 0 0;
         }
         .url-shortener-card .card-body {
-            padding: 20px; /* Adiciona preenchimento interno de 20px no corpo do card */
+            padding: 20px;
         }
         .url-shortener-card .form-group {
-            margin-bottom: 20px; /* Define margem inferior de 20px para os elementos do formulário */
+            margin-bottom: 20px;
         }
         .url-shortener-card .btn-primary {
-            width: 100%; /* Define largura total para o botão primário dentro do card */
+            width: 100%;
         }
         .url-shortener-list {
-            margin-top: 20px; /* Define margem superior de 20px para a lista de URLs */
-            display: none; /* Inicialmente oculta a lista de URLs */
+            margin-top: 20px;
+            display: none;
         }
         .url-shortener-list.show {
-            display: block; /* Exibe a lista de URLs quando a classe 'show' é adicionada */
+            display: block;
         }
         .url-shortener-list .list-group-item {
-            border: 1px solid #ddd; /* Adiciona borda de 1px sólida com cor cinza para cada item da lista */
-            border-radius: 8px; /* Adiciona bordas arredondadas */
-            margin-bottom: 10px; /* Define margem inferior de 10px para cada item da lista */
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
         }
         /* Estilos para o botão Mostrar Mais */
         .show-more-button {
             margin-top: 10px; /* Define margem superior de 10px para o botão */
         }
-        .list-group-item i {
-            margin-right: 10px; /* Espaçamento entre o ícone e o texto */
+        #sidebar {
+            height: 100%;
+            width: 250px;
+            background-color: #007bff;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s;
+            overflow: hidden;
+            position: fixed;
         }
-        .ms-3{
-            margin-left: 10px;
+        #sidebar .list-group-item {
+            color: white;
+            border: none;
+        }
+        .list-group-item {
+            
+            border: none;
+            color: #000000;
+            padding: 1rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-heading {
+            padding: 15px;
+            font-size: 1.5rem;
+            text-align: center;
+            color: white;
+        }
+        .list-group-item i {
+            margin-right: 5px;
         }
         .sidebar-heading i {
             margin-right: 10px;
